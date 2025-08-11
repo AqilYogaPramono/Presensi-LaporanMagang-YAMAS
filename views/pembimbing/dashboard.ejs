@@ -1,0 +1,114 @@
+<%- include('../partialsPembimbing/__messages.ejs') %>
+<%- include('../partialsPembimbing/__head.ejs', { title: 'Dashboard Pembimbing' }) %>
+<%- include('../partialsPembimbing/__nav-side.ejs') %>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 mb-0 text-gray-800">Dashboard Pembimbing</h1>
+                <p class="text-muted mb-0">Kelola dan pantau peserta bimbingan Anda</p>
+            </div>
+            <div class="text-right">
+                <span class="badge badge-info px-3 py-2">
+                    <i class="fas fa-user-tie mr-1"></i>
+                    Panel Pembimbing
+                </span>
+            </div>
+        </div>
+
+        <!-- Stats Cards Row -->
+        <div class="row">
+            <!-- Peserta Proses Card -->
+            <div class="col-xl-6 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Peserta Proses
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    <%= countPesertaProses[0].peserta_proses %>
+                                </div>
+                                <div class="text-xs text-muted mt-1">
+                                    Akun belum terverifikasi
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user-times fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Peserta Aktif Card -->
+            <div class="col-xl-6 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Peserta Aktif
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    <%= countPesertaAKtif[0].peserta_aktif %>
+                                </div>
+                                <div class="text-xs text-muted mt-1">
+                                    Akun sudah terverifikasi
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user-check fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            <i class="fas fa-chart-pie mr-2"></i>
+                            Ringkasan Verifikasi Akun
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-4">
+                                <div class="border-right">
+                                    <h3 class="text-primary mb-1">
+                                        <%= parseInt(countPesertaProses[0].peserta_proses) + parseInt(countPesertaAKtif[0].peserta_aktif) %>
+                                    </h3>
+                                    <p class="text-muted mb-0">Total Peserta</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="border-right">
+                                    <h3 class="text-warning mb-1">
+                                        <%= Math.round((parseInt(countPesertaProses[0].peserta_proses) / (parseInt(countPesertaProses[0].peserta_proses) + parseInt(countPesertaAKtif[0].peserta_aktif)) * 100) || 0) %>%
+                                    </h3>
+                                    <p class="text-muted mb-0">Belum Terverifikasi</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 class="text-success mb-1">
+                                    <%= Math.round((parseInt(countPesertaAKtif[0].peserta_aktif) / (parseInt(countPesertaProses[0].peserta_proses) + parseInt(countPesertaAKtif[0].peserta_aktif)) * 100) || 0) %>%
+                                </h3>
+                                <p class="text-muted mb-0">Sudah Terverifikasi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partialsPembimbing/__script') %>

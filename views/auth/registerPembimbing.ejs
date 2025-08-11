@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register Peserta</title>
+
+    <link rel="stylesheet" href="../../skydash-free/template/vendors/feather/feather.css">
+    <link rel="stylesheet" href="../../skydash-free/template/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="../../skydash-free/template/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="../../skydash-free/template/css/vertical-layout-light/style-login-register.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="custom-login.css">
+    <link rel="shortcut icon" href="../../images/assets/Logo.webp" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+.alert-fixed {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050;
+    min-width: 320px;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+</style>
+
+<body>
+<% if (typeof flash !== 'undefined' && (flash.error?.length > 0 || flash.success?.length > 0)) { %>
+    <% if (flash.error?.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show alert-fixed" role="alert" id="top-alert">
+            <i class="bi bi-exclamation-circle me-2"></i> <%= flash.error[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } else if (flash.success?.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show alert-fixed" role="alert" id="top-alert">
+            <i class="bi bi-check-circle me-2"></i> <%= flash.success[0] %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+<% } %>
+
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-center auth px-0">
+                <div class="row w-100 mx-0">
+                    <div class="col-lg-4 mx-auto">
+                        <div class="auth-form-light text-left py-5 px-4 px-sm-5 login-box">
+                            <div class="brand-logo text-center">
+                                <img src="../../images/assets/Logo.webp" alt="logo">
+                            </div>
+                            <form class="pt-3" action="/register-pembimbing" method="POST">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                        <input type="text" class="form-control form-control-lg" placeholder="Nama" name="nama">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                        <input type="email" class="form-control form-control-lg" placeholder="Email" name="email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                        <input type="password" class="form-control form-control-lg" placeholder="Password" name="kata_sandi">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                        <input type="password" class="form-control form-control-lg" placeholder="Konfirmasi Password" name="konfirmasi_kata_sandi">
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Register</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../skydash-free/template/vendors/js/vendor.bundle.base.js"></script>
+    <script src="../../skydash-free/template/js/off-canvas.js"></script>
+    <script src="../../skydash-free/template/js/hoverable-collapse.js"></script>
+    <script src="../../skydash-free/template/js/template.js"></script>
+    <script src="../../skydash-free/template/js/settings.js"></script>
+    <script src="../../skydash-free/template/js/todolist.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+        // Toggle password
+document.addEventListener('DOMContentLoaded', function () {
+    const alertEl = document.getElementById('top-alert');
+    if (alertEl) {
+        setTimeout(() => {
+            const bsAlert = new bootstrap.Alert(alertEl);
+            bsAlert.close();
+        }, 5000); // 5 detik auto-close
+    }
+});
+    </script>
+</body>
+</html>
