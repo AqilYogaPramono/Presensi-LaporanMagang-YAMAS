@@ -76,6 +76,33 @@ class ModelLaporan {
             throw err
         }
     }
+
+    static async checkPresensiMasuk(userId) {
+        try{
+            const [rows] = await connection.query(`SELECT 1 FROM laporan WHERE id_peserta = ? AND DATE(waktu_absensi_masuk) = CURDATE() LIMIT 1`, [userId])
+            return rows.length > 0
+        } catch(err) {
+            throw err
+        }
+    }
+
+    static async checkPresensiKeluar(userId) {
+        try{
+            const [rows] = await connection.query(`SELECT 1 FROM laporan WHERE id_peserta = ? AND DATE(waktu_absensi_keluar) = CURDATE() LIMIT 1`, [userId])
+            return rows.length > 0
+        } catch(err) {
+            throw err
+        }
+    }
+
+    static async checkUploudFile(userId) {
+        try{
+            const [rows] = await connection.query(`SELECT 1 FROM laporan WHERE id_peserta = ? AND DATE(waktu_absensi_masuk) = CURDATE() AND laporan_harian IS NOT NULL LIMIT 1`, [userId])
+            return rows.length > 0
+        } catch(err) {
+            throw err
+        }
+    }
 }
 
 module.exports = ModelLaporan

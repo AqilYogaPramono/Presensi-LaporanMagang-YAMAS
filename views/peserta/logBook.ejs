@@ -379,7 +379,7 @@
         btnPresensiMasuk.prop('disabled', true)
             .removeClass('btn-success').addClass('btn-secondary')
             .html('<i class="mdi mdi-check mr-2"></i>Sudah Presensi');
-        } else if (!isTimeAllowed(9, 10)) {
+        } else if (!isTimeAllowed(1, 24)) {
         btnPresensiMasuk.prop('disabled', true)
             .removeClass('btn-success').addClass('btn-secondary')
             .html('<i class="mdi mdi-clock-alert mr-2"></i>Waktu Habis');
@@ -398,7 +398,7 @@
         btnPresensiKeluar.prop('disabled', true)
             .removeClass('btn-warning').addClass('btn-secondary')
             .html('<i class="mdi mdi-alert mr-2"></i>Masuk Dulu');
-        } else if (!isTimeAllowed(16, 17)) {
+        } else if (!isTimeAllowed(1, 24)) {
         btnPresensiKeluar.prop('disabled', true)
             .removeClass('btn-warning').addClass('btn-secondary')
             .html('<i class="mdi mdi-clock-alert mr-2"></i>Waktu Habis');
@@ -409,7 +409,7 @@
         }
 
         // Upload Laporan: 16:00 - 24:00 (23:59)
-        if (!isTimeAllowed(16, 23)) {
+        if (!isTimeAllowed(1, 24)) {
         btnUploadLaporan.prop('disabled', true)
             .removeClass('btn-info').addClass('btn-secondary')
             .html('<i class="mdi mdi-clock-alert mr-2"></i>Waktu Habis');

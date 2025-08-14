@@ -71,11 +71,17 @@ router.post('/presensi-masuk', authPeserta, scheduleCheck('presensiMasuk'), asyn
     try {
         const userId = req.session.userId
 
+        if (await modelLaporan.checkPresensiMasuk(userId)) {
+            req.flash('error', 'Anda sudah absen masuk hari ini')
+            return res.redirect('/peserta/presensi-laporan')
+        }
+
         await modelLaporan.presensiMasuk(userId)
 
         req.flash('success', 'Presensi masuk berhasil')
         res.redirect('/peserta/presensi-laporan')
     } catch (err) {
+        console.log(err)
         req.flash('err', err.message)
         res.redirect('/')
     }
@@ -86,6 +92,11 @@ router.post('/presensi-keluar', authPeserta, scheduleCheck('presensiKeluar'), as
         const userId = req.session.userId
 
         await modelLaporan.presensiKeluar(userId)
+
+        if (await modelLaporan.checkPresensiKeluar(userId)) {
+            req.flash('error', 'Anda sudah absen keluar hari ini')
+            return res.redirect('/peserta/presensi-laporan')
+        }
 
         req.flash('success', 'Presensi keluar berhasil')
         res.redirect('/peserta/presensi-laporan')
@@ -117,6 +128,12 @@ router.post('/laporan-harian-upload', authPeserta, scheduleCheck('uploadLaporan'
         deleteUploadedFile(req.file)
         req.flash('error', 'Ukuran file terlalu besar. Maksimal 5 MB')
         return res.redirect('/peserta/presensi-laporan')
+        }
+
+        if (await modelLaporan.checkPresensiKeluar(userId)) {
+            deleteUploadedFile(req.file)
+            req.flash('error', 'Anda sudah uploud laporan hari ini')
+            return res.redirect('/peserta/presensi-laporan')
         }
 
         const laporan_pdf = req.file ? req.file.filename : null
@@ -157,17 +174,19 @@ router.post('/laporan-harian-update', authPeserta, scheduleCheck('uploadLaporan'
         }
 
         const record = await modelLaporan.getAllById(userId)
-        const oldFileName = record ? record.laporan_harian : null
+        const oldFileName = record ? record[0].laporan_harian : null
         
         const laporan_pdf = req.file ? req.file.filename : null
 
-        await modelLaporan.updateLaporanFile(userId, laporan_pdf)
-
+        console.log(oldFileName)
         deleteOldPhoto(oldFileName)
+
+        await modelLaporan.updateLaporanFile(userId, laporan_pdf)
 
         req.flash('success', 'Laporan harian PDF berhasil diupload')
         res.redirect('/peserta/presensi-laporan')
     } catch (error) {
+        deleteUploadedFile(req.file)
         req.flash('error', error.message)
         res.redirect('/peserta/presensi-laporan')
     }
