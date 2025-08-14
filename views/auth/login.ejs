@@ -1,136 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Login - Skydash Admin</title>
-
-    <!-- Vendor CSS -->
-    <link rel="stylesheet" href="../../skydash-free/template/vendors/feather/feather.css" />
-    <link rel="stylesheet" href="../../skydash-free/template/vendors/ti-icons/css/themify-icons.css" />
-    <link rel="stylesheet" href="../../skydash-free/template/vendors/css/vendor.bundle.base.css" />
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="../../skydash-free/template/css/vertical-layout-light/style-login-register.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-    <link rel="shortcut icon" href="../../images/assets/Logo.webp" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login</title>
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="shortcut icon" href="/skydash/template/images/favicon.png" />
+    <link rel="stylesheet" href="css/vertical-layout-light/style.css">
     <style>
-        .alert-fixed {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1050;
-            min-width: 300px;
-            max-width: 500px;
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/1.png');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding-top: 0;
+            box-sizing: border-box;
+        }
+
+        .brand-logo img {
+            max-width: 80px;
+            height: auto;
+        }
+
+        .auth-form-light {
+            background: #ffffff;
+            padding: 2.5rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.409);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+
+        .auth-form-light .brand-logo h2 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-control-lg {
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            height: auto;
+        }
+
+        .input-group-text {
+            cursor: pointer;
+        }
+
+        .auth-form-btn {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 30px;
+            margin-top: 1.5rem;
+            background-color: #0F8EC8;
+            border: 1px solid #0F8EC8;
+            color: #D7F2FF;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .auth-form-btn:hover {
+            background-color: #0E7CB3;
+            border-color: #0E7CB3;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 480px) {
+            .auth-form-light {
+                padding: 2.5rem 1.5rem;
+            }
         }
     </style>
 </head>
+
 <body>
-    <% if (typeof flash !== 'undefined' && flash.error && flash.error.length > 0) { %>
-        <div class="alert alert-danger alert-dismissible fade show alert-fixed" role="alert" id="top-alert">
-            <i class="bi bi-exclamation-circle"></i> <%= flash.error[0] %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <section class="hero-section">
+        <div class="brand-logo">
+            <img src="images/Logo Perpustakaan Medayu.webp" alt="Logo Perpustakaan Medayu">
         </div>
-    <% } %>
 
-
-    <div class="container-scroller">
-        <div class="container-fluid page-body-wrapper full-page-wrapper">
-            <div class="content-wrapper d-flex align-items-center auth px-0">
-                <div class="row w-100 mx-0">
-                    <div class="col-lg-4 mx-auto">
-                        <div class="auth-form-light text-left py-5 px-4 px-sm-5 login-box">
-                            <div class="brand-logo text-center mb-4">
-                                <img src="../../images/assets/Logo.webp" alt="logo" style="height:80px;" />
-                            </div>
-
-                            <form class="pt-3" action="/log" method="POST" novalidate>
-                                
-                                <!-- Email -->
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-text">
-                                            <i class="bi bi-person"></i>
-                                        </span>
-                                        <input
-                                            type="email"
-                                            class="form-control form-control-lg"
-                                            placeholder="Email"
-                                            name="email"
-                                            value="<%= oldInput?.email || '' %>"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-text">
-                                            <i class="bi bi-lock"></i>
-                                        </span>
-                                        <input
-                                            type="password"
-                                            class="form-control form-control-lg"
-                                            id="passwordInput"
-                                            placeholder="Password"
-                                            name="kata_sandi"
-                                            required
-                                        />
-                                        <span class="input-group-text" id="togglePassword" style="cursor:pointer;">
-                                            <i class="bi bi-eye"></i>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div class="mt-3">
-                                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
-                                        Login
-                                    </button>
-                                </div>
-                            </form>
+        <div class="auth-form-light text-left py-5 px-4 px-sm-5 login-box">
+            <div class="brand-logo">
+                <h2>Login</h2>
+            </div>
+            <form class="pt-3" action="/login" method="POST">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="bi bi-envelope"></i>
+                            </span>
                         </div>
+                        <input type="email" class="form-control form-control-lg" id="emailInput" placeholder="Email" name="email">
                     </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                        </div>
+                        <input type="password" class="form-control form-control-lg" id="passwordInput"
+                            placeholder="Password" name="password">
+                        <div class="input-group-append">
+                            <span class="input-group-text toggle-password">
+                                <i class="bi bi-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div id="validation-error" class="text-danger mt-2"></div>
+                </div>
+                <div class="mt-3 text-center d-flex align-items-center justify-content-center">
+                    <button type="submit" class="btn auth-form-btn">Login</button>
+                </div>
+            </form>
         </div>
-    </div>
+    </section>
 
-    <!-- Vendor JS -->
-    <script src="../../skydash-free/template/vendors/js/vendor.bundle.base.js"></script>
-    <script src="../../skydash-free/template/js/off-canvas.js"></script>
-    <script src="../../skydash-free/template/js/hoverable-collapse.js"></script>
-    <script src="../../skydash-free/template/js/template.js"></script>
-    <script src="../../skydash-free/template/js/settings.js"></script>
-    <script src="../../skydash-free/template/js/todolist.js"></script>
-    
-
+    <script src="../../vendors/js/vendor.bundle.base.js"></script>
     <script>
-        // Toggle password
         document.addEventListener('DOMContentLoaded', function () {
-            const togglePassword = document.getElementById('togglePassword');
-            const passwordInput = document.getElementById('passwordInput');
-            const toggleIcon = togglePassword.querySelector('i');
+            const toggleButtons = document.querySelectorAll('.toggle-password');
 
-            togglePassword.addEventListener('click', function () {
-                const isPassword = passwordInput.type === 'password';
-                passwordInput.type = isPassword ? 'text' : 'password';
-                toggleIcon.classList.toggle('bi-eye');
-                toggleIcon.classList.toggle('bi-eye-slash');
+            toggleButtons.forEach(toggleButton => {
+                const inputGroup = toggleButton.closest('.input-group');
+                const passwordInput = inputGroup.querySelector('input[type="password"], input[type="text"]');
+                const toggleIcon = toggleButton.querySelector('i');
+
+                toggleButton.addEventListener('click', function () {
+                    const isPassword = passwordInput.type === 'password';
+                    passwordInput.type = isPassword ? 'text' : 'password';
+
+                    if (isPassword) {
+                        toggleIcon.classList.remove('bi-eye');
+                        toggleIcon.classList.add('bi-eye-slash');
+                    } else {
+                        toggleIcon.classList.remove('bi-eye-slash');
+                        toggleIcon.classList.add('bi-eye');
+                    }
+                });
             });
 
-            // Auto hide alert after 5s
-            const alertEl = document.getElementById('top-alert');
-            if (alertEl) {
-                setTimeout(() => {
-                    alertEl.classList.remove('show');
-                    alertEl.classList.add('fade');
-                }, 5000);
-            }
+            const form = document.querySelector('form');
+            const emailInput = document.getElementById('emailInput');
+            const passwordInput = document.getElementById('passwordInput');
+            const errorDiv = document.getElementById('validation-error');
+
+            form.addEventListener('submit', function (event) {
+                // Reset validasi
+                errorDiv.textContent = '';
+                emailInput.classList.remove('is-invalid');
+                passwordInput.classList.remove('is-invalid');
+
+                let isValid = true;
+
+                if (emailInput.value.trim() === '') {
+                    emailInput.classList.add('is-invalid');
+                    isValid = false;
+                }
+                if (passwordInput.value.trim() === '') {
+                    passwordInput.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                if (!isValid) {
+                    event.preventDefault();
+                    errorDiv.textContent = 'Email dan password tidak boleh kosong.';
+                }
+            });
         });
     </script>
 </body>
+
 </html>
