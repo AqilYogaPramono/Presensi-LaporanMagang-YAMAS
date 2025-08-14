@@ -6,6 +6,7 @@ const path = require('path')
 const multer = require('multer')
 const fs = require('fs')
 const {authPeserta} = require('../../middleware/auth')
+const scheduleCheck = require('../../middleware/scheduleCheck')
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -50,7 +51,6 @@ const deleteOldPhoto = (oldPhoto) => {
     }
 }
 
-
 router.get('/presensi-laporan', authPeserta, async (req, res) => {
     try {
         const userId = req.session.userId
@@ -67,39 +67,26 @@ router.get('/presensi-laporan', authPeserta, async (req, res) => {
     }
 })
 
-router.post('/presensi-masuk', authPeserta, async (req, res) => {
+router.post('/presensi-masuk', authPeserta, scheduleCheck('presensiMasuk'), async (req, res) => {
     try {
         const userId = req.session.userId
 
-        const jam = new Date().getHours()
-        console.log(jam)
-        if (jam < 9 || jam > 10) {
-            req.flash('error', 'Presensi masuk hanya bisa dilakukan antara jam 09:00 - 10:00')
-            return res.redirect('/peserta/presensi-laporan')
-        }
-
-
         await modelLaporan.presensiMasuk(userId)
+
         req.flash('success', 'Presensi masuk berhasil')
         res.redirect('/peserta/presensi-laporan')
     } catch (err) {
-        console.log(err)
         req.flash('err', err.message)
         res.redirect('/')
     }
 })
 
-router.post('/presensi-keluar', authPeserta, async (req, res) => {
+router.post('/presensi-keluar', authPeserta, scheduleCheck('presensiKeluar'), async (req, res) => {
     try {
         const userId = req.session.userId
 
-        const jam = new Date().getHours()
-        if (jam < 16 || jam >= 17 ) {
-            req.flash('error', 'Presensi masuk hanya bisa dilakukan antara jam 16:00 - 17:00')
-            return res.redirect('/peserta/presensi-laporan')
-        }
-
         await modelLaporan.presensiKeluar(userId)
+
         req.flash('success', 'Presensi keluar berhasil')
         res.redirect('/peserta/presensi-laporan')
     } catch (err) {
@@ -108,7 +95,7 @@ router.post('/presensi-keluar', authPeserta, async (req, res) => {
     }
 })
 
-router.post('/laporan-harian-upload', authPeserta, upload.single('laporan_pdf'), async (req, res) => {
+router.post('/laporan-harian-upload', authPeserta, scheduleCheck('uploadLaporan'), upload.single('laporan_pdf'), async (req, res) => {
     try {
         const userId = req.session.userId
 
@@ -130,13 +117,6 @@ router.post('/laporan-harian-upload', authPeserta, upload.single('laporan_pdf'),
         deleteUploadedFile(req.file)
         req.flash('error', 'Ukuran file terlalu besar. Maksimal 5 MB')
         return res.redirect('/peserta/presensi-laporan')
-        }
-
-        const jam = new Date().getHours()
-        if (jam < 16 || jam > 23) {
-            deleteUploadedFile(req.file)
-            req.flash('error', 'Laporan hanya bisa dikirim antara jam 16:00 - 24:00')
-            return res.redirect('/peserta/presensi-laporan')
         }
 
         const laporan_pdf = req.file ? req.file.filename : null
@@ -152,7 +132,7 @@ router.post('/laporan-harian-upload', authPeserta, upload.single('laporan_pdf'),
     }
 })
 
-router.post('/laporan-harian-update', authPeserta, upload.single('laporan_pdf'), async (req, res) => {
+router.post('/laporan-harian-update', authPeserta, scheduleCheck('uploadLaporan'), upload.single('laporan_pdf'), async (req, res) => {
     try {
         const userId = req.session.userId
 
@@ -174,13 +154,6 @@ router.post('/laporan-harian-update', authPeserta, upload.single('laporan_pdf'),
         deleteUploadedFile(req.file)
         req.flash('error', 'Ukuran file terlalu besar. Maksimal 5 MB')
         return res.redirect('/peserta/presensi-laporan')
-        }
-
-        const jam = new Date().getHours()
-        if (jam < 16 || jam > 23) {
-            deleteUploadedFile(req.file)
-            req.flash('error', 'Laporan hanya bisa dikirim antara jam 16:00 - 24:00')
-            return res.redirect('/peserta/presensi-laporan')
         }
 
         const record = await modelLaporan.getAllById(userId)
