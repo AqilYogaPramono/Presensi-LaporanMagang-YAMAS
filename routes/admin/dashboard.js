@@ -9,12 +9,11 @@ router.get('/dashboard', authAdmin, async (req, res) => {
 
         const  user = await modelPembimbing.getPembimbingById(userId)
 
-        const countPembimbngProses = await modelPembimbing.countPembimbngProses()
-        const countPembimbngAKtif = await modelPembimbing.countPembimbngAKtif()
+        const countPembimbingProses = await modelPembimbing.countPembimbingProses()
+        const countPembimbingAKtif = await modelPembimbing.countPembimbingAktif()
 
-        res.render('admin/dashboard', { countPembimbngProses,countPembimbngAKtif, user })
+        res.render('admin/dashboard', { countPembimbingProses,countPembimbingAKtif, user })
     } catch(err) {
-        console.log(err)
         req.flash('error', err.message)
         res.redirect('/')
     }

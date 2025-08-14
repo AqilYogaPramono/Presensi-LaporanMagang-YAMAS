@@ -11,7 +11,6 @@ router.get('/pembimbing', authAdmin, async(req, res) => {
 
         const getAllPembimbing = await modelPembimbing.getAllPembimbing()
 
-        console.log(req.session.role, req.session.userId)
         res.render('admin/pembimbing', {getAllPembimbing, user})
     } catch(err) {
         req.flash('error', err.message)
@@ -44,7 +43,6 @@ router.post('/pembimbing/delete/:id', authAdmin, async (req, res) => {
         req.flash('success', 'Pembimbing berhasil dihapus')
         res.redirect('/admin/pembimbing')
     } catch(err) {
-        console.log(err)
         req.flash('error', err.message)
         res.redirect('/admin/pembimbing')
     }

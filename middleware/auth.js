@@ -49,7 +49,7 @@ const authAdmin = async (req, res, next) => {
             return res.redirect('/login')
         }
 
-        const admin = await modelPembimbing.getpembimbingById(req.session.userId)
+        const admin = await modelPembimbing.getPembimbingById(req.session.userId)
         if (!admin || admin.status != 'Aktif') {
             req.flash('error', 'Akun Admin tidak aktif')
             return res.redirect('/login')
@@ -57,7 +57,6 @@ const authAdmin = async (req, res, next) => {
 
         next()
     } catch (err) {
-        console.log(err)
         req.flash('error', 'Terjadi kesalahan saat validasi akses')
         res.redirect('/login')
     }
