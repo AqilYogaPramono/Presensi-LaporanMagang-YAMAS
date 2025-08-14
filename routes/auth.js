@@ -207,7 +207,7 @@ router.post('/log', async (req, res) => {
 
     } catch (err) {
         console.error(err)
-        req.flash('error', 'Terjadi kesalahan sistem')
+        req.flash('error', err.message)
         return res.redirect('/login')
     }
 })
