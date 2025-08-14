@@ -55,7 +55,7 @@ router.get('/presensi-laporan', authPeserta, async (req, res) => {
     try {
         const userId = req.session.userId
 
-        const  user = await modelPeserta.getPesertaById(userId)
+        const user = await modelPeserta.getPesertaById(userId)
 
         const dataNow = await modelLaporan.getLaporanHariIni(userId)
 
@@ -91,12 +91,12 @@ router.post('/presensi-keluar', authPeserta, scheduleCheck('presensiKeluar'), as
     try {
         const userId = req.session.userId
 
-        await modelLaporan.presensiKeluar(userId)
-
         if (await modelLaporan.checkPresensiKeluar(userId)) {
             req.flash('error', 'Anda sudah absen keluar hari ini')
             return res.redirect('/peserta/presensi-laporan')
         }
+
+        await modelLaporan.presensiKeluar(userId)
 
         req.flash('success', 'Presensi keluar berhasil')
         res.redirect('/peserta/presensi-laporan')

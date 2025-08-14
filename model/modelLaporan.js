@@ -10,38 +10,28 @@ class ModelLaporan {
         }
     }
 
-    static async presensiMasuk(id_peserta) {
+    static async presensiMasuk(userId) {
         try {
-            const [result] = await connection.query(`INSERT INTO laporan (waktu_absensi_masuk, id_peserta) VALUES (NOW(), ?)`,[id_peserta])
+            const [result] = await connection.query(`INSERT INTO laporan (waktu_absensi_masuk, id_peserta) VALUES (NOW(), ?)`,[userId])
             return result
         } catch (err) {
             throw err
         }
     }
 
-    static async presensiKeluar(id_peserta) {
+    static async presensiKeluar(userId) {
         try {
-            const [result] = await connection.query(`UPDATE laporan SET waktu_absensi_keluar = NOW() WHERE id_peserta = ? AND DATE(waktu_absensi_masuk) = CURDATE()`,[id_peserta])
+            const [result] = await connection.query(`UPDATE laporan SET waktu_absensi_keluar = NOW() WHERE id_peserta = ? AND DATE(waktu_absensi_masuk) = CURDATE()`,[userId])
             return result
         } catch (err) {
             throw err
         }
     }
 
-    static async kirimLaporan(laporan_harian, id_peserta) {
-        try {
-            const [result] = await connection.query(`UPDATE laporan SET laporan_harian = ? WHERE id_peserta = ? AND DATE(waktu_absensi_masuk) = CURDATE()`, [laporan_harian, id_peserta]
-            )
-            return result
-        } catch (err) {
-            throw err
-        }
-    }
-
-    static async getAllById(idUser) {
+    static async getAllById(userId) {
         try {
             const [rows] = await connection.query(`SELECT laporan.id, laporan.waktu_absensi_masuk, laporan.waktu_absensi_keluar, laporan.laporan_harian, peserta.nama AS nama_peserta FROM laporan LEFT JOIN peserta ON laporan.id_peserta = peserta.id WHERE laporan.id_peserta = ?`,
-                [idUser]
+                [userId]
             )
             return rows
         } catch (err) {
@@ -49,9 +39,9 @@ class ModelLaporan {
         }
     }
 
-    static async getByID(idUser) {
+    static async getByID(userId) {
         try {
-            const [rows] = await connection.query(`SELECT * FROM laporan WHERE id_peserta = ?`,[idUser])
+            const [rows] = await connection.query(`SELECT * FROM laporan WHERE id_peserta = ?`,[userId])
             return rows[0]
         } catch (err) {
             throw err
@@ -60,7 +50,7 @@ class ModelLaporan {
 
     static async updateLaporanFile(idUser, laporan_pdf) {
         try {
-            const [result] = await connection.query(`UPDATE laporan SET laporan_harian = ? WHERE id_peserta = ?`,[laporan_pdf, idUser]
+            const [result] = await connection.query(`UPDATE laporan SET laporan_harian = ? WHERE id_peserta = ? AND DATE(waktu_absensi_masuk) = CURDATE()`,[laporan_pdf, idUser]
             )
             return result
         } catch (err) {
