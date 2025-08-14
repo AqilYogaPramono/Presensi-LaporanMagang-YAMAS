@@ -28,7 +28,7 @@ const authPembimbing = async (req, res, next) => {
             return res.redirect('/login')
         }
 
-        const pengurus = await modelPembimbing.getpembimbingById(req.session.userId)
+        const pengurus = await modelPembimbing.getPembimbingById(req.session.userId)
         if (!pengurus || pengurus.status != 'Aktif') {
             req.flash('error', 'Akun Pembimbing tidak aktif')
             return res.redirect('/login')
