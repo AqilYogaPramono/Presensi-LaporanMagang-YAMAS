@@ -61,7 +61,6 @@ router.get('/presensi-laporan', authPeserta, async (req, res) => {
 
         res.render('peserta/logBook', {dataNow, user})
     } catch (err) {
-        console.log(err)
         req.flash('err', err.message)
         res.redirect('/')
     }
@@ -81,7 +80,6 @@ router.post('/presensi-masuk', authPeserta, async (req, res) => {
         req.flash('success', 'Presensi masuk berhasil')
         res.redirect('/peserta/presensi-laporan')
     } catch (err) {
-        console.log(err)
         req.flash('err', err.message)
         res.redirect('/')
     }
@@ -130,7 +128,7 @@ router.post('/laporan-harian-upload', authPeserta, upload.single('laporan_pdf'),
         return res.redirect('/peserta/presensi-laporan')
         }
 
-        if (await modelLaporan.checkPresensiKeluar(userId)) {
+        if (await modelLaporan.checkUploudFile(userId)) {
             deleteUploadedFile(req.file)
             req.flash('error', 'Anda sudah uploud laporan hari ini')
             return res.redirect('/peserta/presensi-laporan')
@@ -138,13 +136,13 @@ router.post('/laporan-harian-upload', authPeserta, upload.single('laporan_pdf'),
 
         const laporan_pdf = req.file ? req.file.filename : null
 
-        await modelLaporan.updateLaporanFile(userId, laporan_pdf)
+        await modelLaporan.updateLaporanFile(laporan_pdf, userId)
 
         req.flash('success', 'Laporan harian PDF berhasil diupload')
         res.redirect('/peserta/presensi-laporan')
-    } catch (error) {
+    } catch (err) {
         deleteUploadedFile(req.file)
-        req.flash('error', error.message)
+        req.flash('error', err.message)
         res.redirect('/peserta/presensi-laporan')
     }
 })
@@ -173,21 +171,20 @@ router.post('/laporan-harian-update', authPeserta, upload.single('laporan_pdf'),
         return res.redirect('/peserta/presensi-laporan')
         }
 
-        const record = await modelLaporan.getAllById(userId)
-        const oldFileName = record ? record[0].laporan_harian : null
+        const record = await modelLaporan.getById(userId)
+        const oldFileName = record ? record.laporan_harian : null
         
         const laporan_pdf = req.file ? req.file.filename : null
 
-        console.log(oldFileName)
         deleteOldPhoto(oldFileName)
 
         await modelLaporan.updateLaporanFile(userId, laporan_pdf)
 
         req.flash('success', 'Laporan harian PDF berhasil diupload')
         res.redirect('/peserta/presensi-laporan')
-    } catch (error) {
+    } catch (err) {
         deleteUploadedFile(req.file)
-        req.flash('error', error.message)
+        req.flash('error', err.message)
         res.redirect('/peserta/presensi-laporan')
     }
 })

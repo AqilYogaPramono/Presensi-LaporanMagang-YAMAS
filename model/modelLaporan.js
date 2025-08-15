@@ -39,6 +39,17 @@ class ModelLaporan {
         }
     }
 
+    static async getById(userId) {
+        try {
+            const [rows] = await connection.query(`SELECT laporan.id, laporan.waktu_absensi_masuk, laporan.waktu_absensi_keluar, laporan.laporan_harian, peserta.nama AS nama_peserta FROM laporan LEFT JOIN peserta ON laporan.id_peserta = peserta.id WHERE laporan.id_peserta = ?`,
+                [userId]
+            )
+            return rows[0]
+        } catch (err) {
+            throw err
+        }
+    }
+
     static async getByID(userId) {
         try {
             const [rows] = await connection.query(`SELECT * FROM laporan WHERE id_peserta = ?`,[userId])
@@ -48,7 +59,7 @@ class ModelLaporan {
         }
     }
 
-    static async updateLaporanFile(idUser, laporan_pdf) {
+    static async updateLaporanFile(laporan_pdf, idUser) {
         try {
             const [result] = await connection.query(`UPDATE laporan SET laporan_harian = ? WHERE id_peserta = ? AND DATE(waktu_absensi_masuk) = CURDATE()`,[laporan_pdf, idUser]
             )

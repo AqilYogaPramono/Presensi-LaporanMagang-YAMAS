@@ -16,7 +16,7 @@ const pool = mysql.createPool({
         console.log('MySQL connected successfully!')
         conn.release()
     } catch (err) {
-        console.error('MySQL connection failed:', err.message)
+        console.error('MySQL connection failed:', err)
     }
 })()
 
