@@ -1,9 +1,13 @@
-// middleware/scheduleCheck.js
 function scheduleCheck(type) {
     return (req, res, next) => {
-        const now = new Date()
-        const day = now.getDay()
-        const hour = now.getHours()
+        const now = new Date();
+        const day = now.getDay();
+        const hour = now.getHours();
+
+        if (day == 0) {
+            req.flash('error', 'Hari ini libur, tidak bisa melakukan aksi ini');
+            return res.redirect('/peserta/presensi-laporan');
+        }
 
         const schedules = {
             presensiMasuk: {
@@ -18,27 +22,20 @@ function scheduleCheck(type) {
                 1: [16, 24], 2: [16, 24], 3: [16, 24], 4: [16, 24], 5: [16, 24],
                 6: [14, 24],
             }
-        }
+        };
 
-        if (day == 0) {
-            req.flash('error', 'Hari ini libur, tidak bisa melakukan aksi ini')
-            return res.redirect('/peserta/presensi-laporan')
-        }
-
-        const schedule = schedules[type][day]
+        const schedule = schedules[type][day];
         if (!schedule) {
-            req.flash('error', 'Tidak ada jadwal untuk aksi ini hari ini')
-            return res.redirect('/peserta/presensi-laporan')
+            req.flash('error', 'Tidak ada jadwal untuk aksi ini hari ini');
+            return res.redirect('/peserta/presensi-laporan');
         }
 
-        const [start, end] = schedule
+        const [start, end] = schedule;
         if (hour < start || hour > end) {
-            req.flash('error', `Aksi ini hanya bisa dilakukan antara jam ${start}:00 - ${end}:00`)
-            return res.redirect('/peserta/presensi-laporan')
+            req.flash('error', `Aksi ini hanya bisa dilakukan antara jam ${start}:00 - ${end}:00`);
+            return res.redirect('/peserta/presensi-laporan');
         }
 
-        next()
-    }
+        next();
+    };
 }
-
-module.exports = scheduleCheck
