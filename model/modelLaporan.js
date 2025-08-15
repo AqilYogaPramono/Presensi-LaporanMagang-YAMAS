@@ -39,9 +39,9 @@ class ModelLaporan {
         }
     }
 
-    static async getById(userId) {
+    static async getByIdForToday(userId) {
         try {
-            const [rows] = await connection.query(`SELECT laporan.id, laporan.waktu_absensi_masuk, laporan.waktu_absensi_keluar, laporan.laporan_harian, peserta.nama AS nama_peserta FROM laporan LEFT JOIN peserta ON laporan.id_peserta = peserta.id WHERE laporan.id_peserta = ?`,
+            const [rows] = await connection.query(`SELECT laporan.id, laporan.waktu_absensi_masuk, laporan.waktu_absensi_keluar, laporan.laporan_harian, peserta.nama AS nama_peserta FROM laporan LEFT JOIN peserta ON laporan.id_peserta = peserta.id WHERE laporan.id_peserta = ? AND DATE(laporan.waktu_absensi_masuk) = CURDATE();`,
                 [userId]
             )
             return rows[0]

@@ -171,14 +171,14 @@ router.post('/laporan-harian-update', authPeserta, upload.single('laporan_pdf'),
         return res.redirect('/peserta/presensi-laporan')
         }
 
-        const record = await modelLaporan.getById(userId)
+        const record = await modelLaporan.getByIdForToday(userId)
         const oldFileName = record ? record.laporan_harian : null
         
         const laporan_pdf = req.file ? req.file.filename : null
 
         deleteOldPhoto(oldFileName)
 
-        await modelLaporan.updateLaporanFile(userId, laporan_pdf)
+        await modelLaporan.updateLaporanFile(laporan_pdf, userId)
 
         req.flash('success', 'Laporan harian PDF berhasil diupload')
         res.redirect('/peserta/presensi-laporan')
