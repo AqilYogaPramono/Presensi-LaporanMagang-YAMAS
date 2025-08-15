@@ -67,7 +67,7 @@ router.get('/presensi-laporan', authPeserta, async (req, res) => {
     }
 })
 
-router.post('/presensi-masuk', authPeserta, scheduleCheck('presensiMasuk'), async (req, res) => {
+router.post('/presensi-masuk', authPeserta, async (req, res) => {
     try {
         const userId = req.session.userId
 
@@ -87,7 +87,7 @@ router.post('/presensi-masuk', authPeserta, scheduleCheck('presensiMasuk'), asyn
     }
 })
 
-router.post('/presensi-keluar', authPeserta, scheduleCheck('presensiKeluar'), async (req, res) => {
+router.post('/presensi-keluar', authPeserta, async (req, res) => {
     try {
         const userId = req.session.userId
 
@@ -106,7 +106,7 @@ router.post('/presensi-keluar', authPeserta, scheduleCheck('presensiKeluar'), as
     }
 })
 
-router.post('/laporan-harian-upload', authPeserta, scheduleCheck('uploadLaporan'), upload.single('laporan_pdf'), async (req, res) => {
+router.post('/laporan-harian-upload', authPeserta, upload.single('laporan_pdf'), async (req, res) => {
     try {
         const userId = req.session.userId
 
@@ -149,7 +149,7 @@ router.post('/laporan-harian-upload', authPeserta, scheduleCheck('uploadLaporan'
     }
 })
 
-router.post('/laporan-harian-update', authPeserta, scheduleCheck('uploadLaporan'), upload.single('laporan_pdf'), async (req, res) => {
+router.post('/laporan-harian-update', authPeserta, upload.single('laporan_pdf'), async (req, res) => {
     try {
         const userId = req.session.userId
 
