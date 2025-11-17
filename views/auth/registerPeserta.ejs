@@ -1,112 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Register Peserta</title>
-
-    <link rel="stylesheet" href="../../skydash-free/template/vendors/feather/feather.css">
-    <link rel="stylesheet" href="../../skydash-free/template/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="../../skydash-free/template/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="../../skydash-free/template/css/vertical-layout-light/style-login-register.css">
+    <title>Register</title>
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="custom-login.css">
-    <link rel="shortcut icon" href="../../images/assets/Logo.webp" />
+    <link rel="shortcut icon" href="/skydash/template/images/favicon.png" />
+    <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+    <style>
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/1.png');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-top: 0;
+            box-sizing: border-box;
+        }
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        .brand-logo {
+            margin-bottom: 20px;
+        }
+
+        .brand-logo img {
+            max-width: 80px;
+            height: auto;
+        }
+
+        .auth-form-light {
+            background: #ffffff;
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.409);
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            margin-top: -30px;
+            position: relative;
+        }
+
+        .auth-form-light .brand-logo h2 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-control-lg {
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            height: auto;
+        }
+
+        .input-group-text {
+            cursor: pointer;
+        }
+
+        .auth-form-btn {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 30px;
+            margin-top: 1.5rem;
+            background-color: #0F8EC8;
+            border: 1px solid #0F8EC8;
+            color: #D7F2FF;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .auth-form-btn:hover {
+            background-color: #0E7CB3;
+            border-color: #0E7CB3;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .close-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.2rem; 
+            cursor: pointer;
+            color: #666;
+            transition: color 0.2s ease;
+        }
+
+        .close-icon:hover {
+            color: #000;
+        }
+        
+        @media (max-width: 480px) {
+            .auth-form-light {
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
 </head>
-<style>
-.alert-fixed {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1050;
-    min-width: 320px;
-    max-width: 500px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-</style>
 
 <body>
-<% if (typeof flash !== 'undefined' && (flash.error?.length > 0 || flash.success?.length > 0)) { %>
-    <% if (flash.error?.length > 0) { %>
-        <div class="alert alert-danger alert-dismissible fade show alert-fixed" role="alert" id="top-alert">
-            <i class="bi bi-exclamation-circle me-2"></i> <%= flash.error[0] %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <section class="hero-section">
+        <div class="brand-logo">
+            <img src="images/Logo Perpustakaan Medayu.webp" alt="Logo Perpustakaan Medayu">
         </div>
-    <% } else if (flash.success?.length > 0) { %>
-        <div class="alert alert-success alert-dismissible fade show alert-fixed" role="alert" id="top-alert">
-            <i class="bi bi-check-circle me-2"></i> <%= flash.success[0] %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <% } %>
-<% } %>
 
-    <div class="container-scroller">
-        <div class="container-fluid page-body-wrapper full-page-wrapper">
-            <div class="content-wrapper d-flex align-items-center auth px-0">
-                <div class="row w-100 mx-0">
-                    <div class="col-lg-4 mx-auto">
-                        <div class="auth-form-light text-left py-5 px-4 px-sm-5 login-box">
-                            <div class="brand-logo text-center">
-                                <img src="../../images/assets/Logo.webp" alt="logo">
-                            </div>
-                            <form class="pt-3" action="/register-peserta" method="POST">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="bi bi-person"></i></span>
-                                        <input type="text" class="form-control form-control-lg" placeholder="Nama" name="nama">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                                        <input type="email" class="form-control form-control-lg" placeholder="Email" name="email">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                                        <input type="password" class="form-control form-control-lg" placeholder="Password" name="kata_sandi">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                                        <input type="password" class="form-control form-control-lg" placeholder="Konfirmasi Password" name="konfirmasi_kata_sandi">
-                                    </div>
-                                </div>
-                                <div class="mt-3">
-                                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">Register</button>
-                                </div>
-                            </form>
+        <div class="auth-form-light text-left py-5 px-4 px-sm-5 login-box">
+            <span class="close-icon"><i class="bi bi-x-lg"></i></span>
+            <div class="brand-logo">
+                <h2>Register</h2>
+            </div>
+            <form class="pt-3" action="/register" method="POST">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control form-control-lg" id="nameInput" placeholder="Name" name="name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+                        </div>
+                        <input type="email" class="form-control form-control-lg" id="emailInput" placeholder="Email" name="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                        </div>
+                        <input type="password" class="form-control form-control-lg" id="passwordInput"
+                            placeholder="Password" name="password">
+                        <div class="input-group-append">
+                            <span class="input-group-text toggle-password">
+                                <i class="bi bi-eye"></i>
+                            </span>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                        </div>
+                        <input type="password" class="form-control form-control-lg" id="passwordInput2"
+                            placeholder="Confirm Password" name="password_confirmation">
+                        <div class="input-group-append">
+                            <span class="input-group-text toggle-password">
+                                <i class="bi bi-eye"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div id="validation-error" class="text-danger mt-2"></div>
+                </div>
+                <div class="mt-3 text-center d-flex align-items-center justify-content-center">
+                    <button type="submit" class="btn auth-form-btn">Register</button>
+                </div>
+            </form>
         </div>
-    </div>
+    </section>
 
-    <script src="../../skydash-free/template/vendors/js/vendor.bundle.base.js"></script>
-    <script src="../../skydash-free/template/js/off-canvas.js"></script>
-    <script src="../../skydash-free/template/js/hoverable-collapse.js"></script>
-    <script src="../../skydash-free/template/js/template.js"></script>
-    <script src="../../skydash-free/template/js/settings.js"></script>
-    <script src="../../skydash-free/template/js/todolist.js"></script>
+    <script src="../../vendors/js/vendor.bundle.base.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButtons = document.querySelectorAll('.toggle-password');
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-        // Toggle password
-document.addEventListener('DOMContentLoaded', function () {
-    const alertEl = document.getElementById('top-alert');
-    if (alertEl) {
-        setTimeout(() => {
-            const bsAlert = new bootstrap.Alert(alertEl);
-            bsAlert.close();
-        }, 5000); // 5 detik auto-close
-    }
-});
+            toggleButtons.forEach(toggleButton => {
+                const inputGroup = toggleButton.closest('.input-group');
+                const passwordInput = inputGroup.querySelector('input[type="password"], input[type="text"]');
+                const toggleIcon = toggleButton.querySelector('i');
+
+                toggleButton.addEventListener('click', function () {
+                    const isPassword = passwordInput.type === 'password';
+                    passwordInput.type = isPassword ? 'text' : 'password';
+
+                    if (isPassword) {
+                        toggleIcon.classList.remove('bi-eye');
+                        toggleIcon.classList.add('bi-eye-slash');
+                    } else {
+                        toggleIcon.classList.remove('bi-eye-slash');
+                        toggleIcon.classList.add('bi-eye');
+                    }
+                });
+            });
+
+            const form = document.querySelector('form');
+            const nameInput = document.getElementById('nameInput');
+            const emailInput = document.getElementById('emailInput');
+            const passwordInput = document.getElementById('passwordInput');
+            const passwordInput2 = document.getElementById('passwordInput2');
+            const errorDiv = document.getElementById('validation-error');
+
+            form.addEventListener('submit', function (event) {
+                errorDiv.textContent = '';
+                nameInput.classList.remove('is-invalid');
+                emailInput.classList.remove('is-invalid');
+                passwordInput.classList.remove('is-invalid');
+                passwordInput2.classList.remove('is-invalid');
+
+                let isValid = true;
+
+                if (nameInput.value.trim() === '') {
+                    nameInput.classList.add('is-invalid');
+                    isValid = false;
+                }
+                if (emailInput.value.trim() === '') {
+                    emailInput.classList.add('is-invalid');
+                    isValid = false;
+                }
+                if (passwordInput.value.trim() === '') {
+                    passwordInput.classList.add('is-invalid');
+                    isValid = false;
+                }
+                if (passwordInput2.value.trim() === '') {
+                    passwordInput2.classList.add('is-invalid');
+                    isValid = false;
+                }
+                
+                if (!isValid) {
+                    event.preventDefault();
+                    errorDiv.textContent = 'Semua kolom tidak boleh kosong.';
+                } else if (passwordInput.value !== passwordInput2.value) {
+                    event.preventDefault();
+                    errorDiv.textContent = 'Konfirmasi Password tidak cocok.';
+                    passwordInput.classList.add('is-invalid');
+                    passwordInput2.classList.add('is-invalid');
+                }
+            });
+        });
     </script>
 </body>
+
 </html>
